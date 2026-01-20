@@ -4,14 +4,30 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import GameHub from "./pages/GameHub";
 import Home from "./pages/Home";
+import Clicker from "./pages/Clicker";
+import Mandala from "./pages/Mandala";
+import Counter from "./pages/Counter";
+import Quiz from "./pages/Quiz";
+import Craft from "./pages/Craft";
+import Dilemma from "./pages/Dilemma";
+import SizeCompare from "./pages/SizeCompare";
 
 
 function Router() {
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/404"} component={NotFound} />
+      <Route path="/spend-money" component={Home} />
+      <Route path="/clicker" component={Clicker} />
+      <Route path="/mandala" component={Mandala} />
+      <Route path="/counter" component={Counter} />
+      <Route path="/quiz" component={Quiz} />
+      <Route path="/craft" component={Craft} />
+      <Route path="/dilemma" component={Dilemma} />
+      <Route path="/size-compare" component={SizeCompare} />
+      <Route path="/" component={GameHub} />
+      <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>

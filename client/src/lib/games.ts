@@ -1,0 +1,147 @@
+export interface Game {
+  id: string;
+  titleMarathi: string;
+  titleEnglish: string;
+  description: string;
+  emoji: string;
+  color: string;
+  category: string;
+  path: string;
+  status: 'available' | 'coming-soon';
+}
+
+export const games: Game[] = [
+  {
+    id: 'spend-money',
+    titleMarathi: 'बिल गेट्सचे पैसे खर्च करा',
+    titleEnglish: 'Spend Bill Gates\' Money',
+    description: 'खरेदी करा, विक्रय करा, आणि अरबपती व्हा',
+    emoji: '💰',
+    color: 'from-cyan-500 to-blue-600',
+    category: 'spending',
+    path: '/spend-money',
+    status: 'available',
+  },
+  {
+    id: 'clicker',
+    titleMarathi: 'महाराष्ट्र उद्योग',
+    titleEnglish: 'Maharashtra Industries',
+    description: 'क्लिक करा आणि महाराष्ट्राचा व्यावसायिक साम्राज्य बनवा',
+    emoji: '🏭',
+    color: 'from-orange-500 to-red-600',
+    category: 'clicker',
+    path: '/clicker',
+    status: 'available',
+  },
+  {
+    id: 'mandala',
+    titleMarathi: 'मंडळ रंग',
+    titleEnglish: 'Mandala Art',
+    description: 'सुंदर मंडळ तयार करा आणि अंक मिळवा',
+    emoji: '🎨',
+    color: 'from-purple-500 to-pink-600',
+    category: 'creative',
+    path: '/mandala',
+    status: 'available',
+  },
+  {
+    id: 'counter',
+    titleMarathi: 'दिवसांची गणना',
+    titleEnglish: 'Days Counter',
+    description: 'महत्वाचे दिवस मोजा आणि स्मृती साठवा',
+    emoji: '📅',
+    color: 'from-green-500 to-emerald-600',
+    category: 'utility',
+    path: '/counter',
+    status: 'available',
+  },
+  {
+    id: 'quiz',
+    titleMarathi: 'हे सत्य आहे का?',
+    titleEnglish: 'Is This True?',
+    description: 'मराठी आणि भारतीय तथ्यांचे प्रश्न सोडवा',
+    emoji: '🧠',
+    color: 'from-indigo-500 to-purple-600',
+    category: 'quiz',
+    path: '/quiz',
+    status: 'available',
+  },
+  {
+    id: 'craft',
+    titleMarathi: 'मराठी रचना',
+    titleEnglish: 'Marathi Creation',
+    description: 'मराठी संकल्पना एकत्र करा आणि नवीन गोष्टी तयार करा',
+    emoji: '✨',
+    color: 'from-yellow-500 to-orange-600',
+    category: 'creative',
+    path: '/craft',
+    status: 'available',
+  },
+  {
+    id: 'dilemma',
+    titleMarathi: 'नैतिक दुविधा',
+    titleEnglish: 'Ethical Dilemmas',
+    description: 'मराठी सांस्कृतिक परिस्थितींमधील निर्णय घ्या',
+    emoji: '⚖️',
+    color: 'from-amber-500 to-orange-600',
+    category: 'thinking',
+    path: '/dilemma',
+    status: 'available',
+  },
+  {
+    id: 'size-compare',
+    titleMarathi: 'आकार तुलना',
+    titleEnglish: 'Size Comparison',
+    description: 'विविध वस्तूंचे आकार तुलना करा',
+    emoji: '📏',
+    color: 'from-teal-500 to-cyan-600',
+    category: 'education',
+    path: '/size-compare',
+    status: 'available',
+  },
+  {
+    id: 'design',
+    titleMarathi: 'भारतीय स्मार्टफोन डिजाइन',
+    titleEnglish: 'Indian Phone Design',
+    description: 'भारतीय बाजारासाठी स्मार्टफोन डिजाइन करा',
+    emoji: '📱',
+    color: 'from-blue-500 to-cyan-600',
+    category: 'design',
+    path: '/design',
+    status: 'coming-soon',
+  },
+  {
+    id: 'music',
+    titleMarathi: 'मराठी संगीत रचना',
+    titleEnglish: 'Marathi Music Creator',
+    description: 'परंपरागत आणि आधुनिक संगीत मिश्रित करा',
+    emoji: '🎵',
+    color: 'from-red-500 to-pink-600',
+    category: 'creative',
+    path: '/music',
+    status: 'coming-soon',
+  },
+  {
+    id: 'tourism',
+    titleMarathi: 'महाराष्ट्र दर्शन',
+    titleEnglish: 'Maharashtra Tourism',
+    description: 'मराठी स्मारकांचा आभासी दौरा करा',
+    emoji: '🏛️',
+    color: 'from-amber-500 to-orange-600',
+    category: 'education',
+    path: '/tourism',
+    status: 'coming-soon',
+  },
+];
+
+export const categories = [
+  { id: 'all', name: 'सर्व खेळ', nameEn: 'All Games' },
+  { id: 'spending', name: 'खर्च करा', nameEn: 'Spending' },
+  { id: 'clicker', name: 'क्लिकर', nameEn: 'Clicker' },
+  { id: 'creative', name: 'रचनात्मक', nameEn: 'Creative' },
+  { id: 'quiz', name: 'प्रश्नमंजुषा', nameEn: 'Quiz' },
+  { id: 'utility', name: 'उपयोगिता', nameEn: 'Utility' },
+  { id: 'design', name: 'डिजाइन', nameEn: 'Design' },
+  { id: 'education', name: 'शिक्षा', nameEn: 'Education' },
+  { id: 'thinking', name: 'विचार', nameEn: 'Thinking' },
+];
