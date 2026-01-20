@@ -12,8 +12,8 @@ import Counter from "./pages/Counter";
 import Quiz from "./pages/Quiz";
 import Craft from "./pages/Craft";
 import Dilemma from "./pages/Dilemma";
-import SizeCompare from "./pages/SizeCompare";
-
+import Size from "@/pages/SizeCompare";
+import MonumentTour from "@/pages/MonumentTour";
 
 function Router() {
   return (
@@ -25,7 +25,8 @@ function Router() {
       <Route path="/quiz" component={Quiz} />
       <Route path="/craft" component={Craft} />
       <Route path="/dilemma" component={Dilemma} />
-      <Route path="/size-compare" component={SizeCompare} />
+      <Route path="/size-compare" component={Size} />
+      <Route path="/monument-tour" component={MonumentTour} />
       <Route path="/" component={GameHub} />
       <Route path="/404" component={NotFound} />
       {/* Final fallback route */}

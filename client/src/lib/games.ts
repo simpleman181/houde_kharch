@@ -129,8 +129,8 @@ export const games: Game[] = [
     emoji: '🏛️',
     color: 'from-amber-500 to-orange-600',
     category: 'education',
-    path: '/tourism',
-    status: 'coming-soon',
+    path: '/monument-tour',
+    status: 'available',
   },
 ];
 
@@ -143,5 +143,5 @@ export const categories = [
   { id: 'utility', name: 'उपयोगिता', nameEn: 'Utility' },
   { id: 'design', name: 'डिजाइन', nameEn: 'Design' },
   { id: 'education', name: 'शिक्षा', nameEn: 'Education' },
-  { id: 'thinking', name: 'विचार', nameEn: 'Thinking' },
+  { id: 'thinking', name: 'विचार', nameEn: 'Thinking' }
 ];
