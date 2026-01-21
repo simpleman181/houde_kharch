@@ -14,6 +14,11 @@ import Craft from "./pages/Craft";
 import Dilemma from "./pages/Dilemma";
 import Size from "@/pages/SizeCompare";
 import MonumentTour from "@/pages/MonumentTour";
+import EscalatingQuiz from "@/pages/EscalatingQuiz";
+import RockPaperScissors from "@/pages/RockPaperScissors";
+import ColorMatcher from "@/pages/ColorMatcher";
+import ReactionTime from "@/pages/ReactionTime";
+import UselessClicker from "@/pages/UselessClicker";
 
 function Router() {
   return (
@@ -27,6 +32,11 @@ function Router() {
       <Route path="/dilemma" component={Dilemma} />
       <Route path="/size-compare" component={Size} />
       <Route path="/monument-tour" component={MonumentTour} />
+      <Route path="/escalating-quiz" component={EscalatingQuiz} />
+      <Route path="/rock-paper-scissors" component={RockPaperScissors} />
+      <Route path="/color-matcher" component={ColorMatcher} />
+      <Route path="/reaction-time" component={ReactionTime} />
+      <Route path="/useless-clicker" component={UselessClicker} />
       <Route path="/" component={GameHub} />
       <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
