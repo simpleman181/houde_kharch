@@ -19,6 +19,18 @@ import RockPaperScissors from "@/pages/RockPaperScissors";
 import ColorMatcher from "@/pages/ColorMatcher";
 import ReactionTime from "@/pages/ReactionTime";
 import UselessClicker from "@/pages/UselessClicker";
+import PerfectShapeDrawer from "@/pages/PerfectShapeDrawer";
+import MemoryDoodle from "@/pages/MemoryDoodle";
+import InfiniteMixer from "@/pages/InfiniteMixer";
+import Lagori from "@/pages/Lagori";
+import DiwaliCelebration from "@/pages/DiwaliCelebration";
+import HoliColors from "@/pages/HoliColors";
+import GudiPadwa from "@/pages/GudiPadwa";
+import JanmashtamiDahiHandi from "@/pages/JanmashtamiDahiHandi";
+import MakarSankranti from "@/pages/MakarSankranti";
+import CulturalQuiz from "@/pages/CulturalQuiz";
+import NagPanchami from "@/pages/NagPanchami";
+import NaraliPournima from "@/pages/NaraliPournima";
 
 function Router() {
   return (
@@ -37,6 +49,18 @@ function Router() {
       <Route path="/color-matcher" component={ColorMatcher} />
       <Route path="/reaction-time" component={ReactionTime} />
       <Route path="/useless-clicker" component={UselessClicker} />
+      <Route path="/perfect-shape" component={PerfectShapeDrawer} />
+      <Route path="/memory-doodle" component={MemoryDoodle} />
+      <Route path="/infinite-mixer" component={InfiniteMixer} />
+      <Route path="/lagori" component={Lagori} />
+      <Route path="/diwali" component={DiwaliCelebration} />
+      <Route path="/holi" component={HoliColors} />
+      <Route path="/gudi-padwa" component={GudiPadwa} />
+      <Route path="/janmashtami" component={JanmashtamiDahiHandi} />
+      <Route path="/makar-sankranti" component={MakarSankranti} />
+      <Route path="/cultural-quiz" component={CulturalQuiz} />
+      <Route path="/nag-panchami" component={NagPanchami} />
+      <Route path="/narali-pournima" component={NaraliPournima} />
       <Route path="/" component={GameHub} />
       <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
