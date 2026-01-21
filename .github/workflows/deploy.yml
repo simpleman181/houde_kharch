@@ -36,8 +36,7 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm run build:client
-        env:
+        run: cd client && pnpm exec vite build        env:
           NODE_ENV: production
 
       - name: Upload artifact
