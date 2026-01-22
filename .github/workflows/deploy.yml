@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+ame: Deploy to GitHub Pages
 
 on:
   push:
@@ -44,7 +44,8 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-        path: ./dist/public    steps:
+        needs: build
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
