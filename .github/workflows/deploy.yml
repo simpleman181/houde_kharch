@@ -19,7 +19,7 @@ on:
                           build:
                               runs-on: ubuntu-latest
                                   steps:
-                                        - name: Checkou
+                                        - name: Check
                                                 uses: actions/checkout@v4
 
                                                       - name: Install pnpm
