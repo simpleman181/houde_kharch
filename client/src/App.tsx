@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
+import { Router as WouterRouter } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import GameHub from "./pages/GameHub";
@@ -34,6 +35,7 @@ import NaraliPournima from "@/pages/NaraliPournima";
 
 function Router() {
   return (
+        <WouterRouter base="/houde_kharch">
     <Switch>
       <Route path="/spend-money" component={Home} />
       <Route path="/clicker" component={Clicker} />
@@ -66,6 +68,7 @@ function Router() {
       {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
+                </WouterRouter>
   );
 }
 
