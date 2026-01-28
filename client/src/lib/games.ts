@@ -305,7 +305,7 @@ export const games: Game[] = [
     emoji: '💰',
     color: 'from-green-500 to-emerald-600',
     category: 'clicker',
-    path: '/budget-catcher.html',
+    path: '/budget-catcher',
     status: 'available',
   },
   {
