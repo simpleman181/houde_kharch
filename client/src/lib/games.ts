@@ -309,6 +309,17 @@ export const games: Game[] = [
     status: 'available',
   },
   {
+      {
+    id: 'nokia-snake',
+    titleMarathi: 'नोकिया स्नेक',
+    titleEnglish: 'Nokia Snake',
+    description: 'क्लासिक नोकिया स्नेक गेम खेळा',
+    emoji: '🐍',
+    color: 'from-green-500 to-teal-600',
+    category: 'arcade',
+    path: '/nokia-snake',
+    status: 'available',
+  },
     id: 'design',
     titleMarathi: 'भारतीय स्मार्टफोन डिजाइन',
     titleEnglish: 'Indian Phone Design',
