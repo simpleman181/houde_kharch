@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>टेडीची सफर - Teddy's Adventure</title>
+    <style>
+        /* सामान्य स्टाइल जी तुमच्या साईटशी जुळते */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        /* गेम कंटेनर */
+        #game-container {
+            position: relative;
+            width: 800px;
+            max-width: 95%;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 4px solid #4CAF50; /* हिरव्या रंगाची सीमा ज्यात खर्च ट्रॅकरचा विषय आहे */
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(to bottom, #87CEEB 0%, #E0F7FA 100%); /* आकाशाचा रंग */
+        }
+
+        /* यूजर इंटरफेस (UI) ओव्हरले */
+        .ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* क्लिक कॅनव्हसपर्यंत पोहोचवण्यासाठी */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* स्कोर बोर्ड */
+        #hud {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 5px 15px;
+            border-radius: 20px;
+            pointer-events: none;
+            display: none;
+        }
+
+        /* स्टार्ट आणि गेम ओव्हर स्क्रीन */
+        .screen {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            pointer-events: auto;
+            max-width: 80%;
+            transition: opacity 0.3s;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* मोबाईल कंट्रोल्स (फक्त छोट्या स्क्रीनवर) */
+        #mobile-controls {
+            display: none;
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
+            pointer-events: none; /* स्क्रीन स्पेस सोडून द्या */
+        }
+
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 50%;
+            pointer-events: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            user-select: none;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+
+        @media (max-width: 600px) {
+            #mobile-controls {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <canvas id="gameCanvas"></canvas>
+    
+    <div id="hud">गुण: <span id="scoreVal">0</span></div>
+
+    <!-- स्टार्ट स्क्रीन -->
+    <div id="start-screen" class="ui-layer">
+        <div class="screen">
+            <h1>टेडीची सफर</h1>
+            <p>टेडीला अडथळ्यांपासून वाचवा!</p>
+            <p><strong>नियंत्रण:</strong> स्पेस किंवा अप बाण (↑) वापरून उडी मारा.</p>
+            <button class="btn" id="startBtn">खेळ सुरू करा</button>
+        </div>
+    </div>
+
+    <!-- गेम ओव्हर स्क्रीन -->
+    <div id="game-over-screen" class="ui-layer hidden">
+        <div class="screen">
+            <h1 style="color: #d32f2f;">खेळ खल्लास ! GAME OVER</h1>
+            <p>तुमचा एकूण गुण: <span id="finalScore">0</span></p>
+            <button class="btn" id="restartBtn">पुन्हा खेळा</button>
+        </div>
+    </div>
+
+    <!-- मोबाईल कंट्रोल्स -->
+    <div id="mobile-controls">
+        <div class="control-btn" id="btnLeft">←</div>
+        <div class="control-btn" id="btnRight">→</div>
+        <div class="control-btn" id="btnJump" style="margin: 0 auto; right: 20px; position: absolute;">U</div>
+    </div>
+</div>
+
+<script>
+/**
+ * गेम इंजिन आणि लॉजिक
+ * हा कोड व्हॅनिला जावास्क्रिप्टमध्ये लिहिला आहे, परंतु तो TSX स्ट्रक्चरशी मिळता-जुळता आहे.
+ */
+
+// कॅनव्हस सेटअप
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+// गेमची स्थिती (Game State)
+let gameRunning = false;
+let score = 0;
+let frameId;
+let gameSpeed = 3;
+let gravity = 0.6;
+
+// रिझोल्युशन सेट करणे
+canvas.width = 800;
+canvas.height = 400;
+
+// इनपुट हँडलिंग
+const keys = {
+    right: false,
+    left: false,
+    up: false
+};
+
+// कीबोर्ड इव्हेंट्स
+document.addEventListener('keydown', (e) => {
+    if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = true;
+    if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = true;
+    if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'KeyW') keys.up = true;
+});
+
+document.addEventListener('keyup', (e) => {
+    if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = false;
+    if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = false;
+    if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'KeyW') keys.up = false;
+});
+
+// मोबाईल टच इव्हेंट्स
+const btnLeft = document.getElementById('btnLeft');
+const btnRight = document.getElementById('btnRight');
+const btnJump = document.getElementById('btnJump');
+
+const addTouch = (elem, key) => {
+    elem.addEventListener('touchstart', (e) => { e.preventDefault(); keys[key] = true; });
+    elem.addEventListener('touchend', (e) => { e.preventDefault(); keys[key] = false; });
+};
+addTouch(btnLeft, 'left');
+addTouch(btnRight, 'right');
+addTouch(btnJump, 'up');
+
+// क्लासेस (Classes)
+
+class Player {
+    constructor() {
+        this.width = 40;
+        this.height = 50;
+        this.x = 100;
+        this.y = 200;
+        this.dy = 0;
+        this.jumpStrength = 12;
+        this.grounded = false;
+        this.color = '#8B4513'; // टेडीचा तपकिरी रंग
+    }
+
+    draw() {
+        // टेडी बिअर काढणे
+        ctx.save();
+        ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+
+        // डोळे मिटण्याची ॲनिमेशन (जेव्हा उडी मारतो)
+        if (!this.grounded) {
+            ctx.scale(1.1, 0.9); // थोडा लांब वाटावा
+        }
+
+        // शरीर (Body)
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.roundRect(-this.width/2, -this.height/2 + 10, this.width, this.height - 10, 15);
+        ctx.fill();
+
+        // डोके (Head)
+        ctx.beginPath();
+        ctx.arc(0, -this.height/2 + 10, 20, 0, Math.PI * 2);
+        ctx.fill();
+
+        // कान (Ears)
+        ctx.beginPath();
+        ctx.arc(-18, -this.height/2 + 5, 8, 0, Math.PI * 2); // डावे कान
+        ctx.arc(18, -this.height/2 + 5, 8, 0, Math.PI * 2);  // उजवे कान
+        ctx.fill();
+
+        // चेहरा (Face details)
+        ctx.fillStyle = '#DEB887'; // थोडा लाईट रंग तोंडासाठी
+        ctx.beginPath();
+        ctx.ellipse(0, -this.height/2 + 12, 12, 10, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // डोळे (Eyes)
+        ctx.fillStyle = 'black';
+        ctx.beginPath();
+        ctx.arc(-6, -this.height/2 + 8, 2, 0, Math.PI * 2);
+        ctx.arc(6, -this.height/2 + 8, 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // नाक (Nose)
+        ctx.fillStyle = 'black';
+        ctx.beginPath();
+        ctx.arc(0, -this.height/2 + 14, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+    update() {
+        // डावी-उजवी हालचाल
+        if (keys.right && this.x < canvas.width - this.width) {
+            this.x += 5;
+        }
+        if (keys.left && this.x > 0) {
+            this.x -= 5;
+        }
+
+        // उडी (Jumping)
+        if (keys.up && this.grounded) {
+            this.dy = -this.jumpStrength;
+            this.grounded = false;
+        }
+
+        // गुरुत्वाकर्षण (Gravity)
+        this.y += this.dy;
+        if (!this.grounded) {
+            this.dy += gravity;
+        } else {
+            this.dy = 0;
+        }
+
+        // जमिनीशी टक्कर (Ground collision - Simple floor)
+        // खरं तर प्लॅटफॉर्म्वर उतरण्यासाठी आपण लॉजिक खाली लिहितो.
+    }
+}
+
+class Platform {
+    constructor(x, y, width) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = 20;
+        this.color = '#4CAF50'; // गवताचा रंग
+    }
+
+    draw() {
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        // गवताचा डिटेल्स
+        ctx.fillStyle = '#388E3C';
+        ctx.fillRect(this.x, this.y, this.width, 5);
+    }
+
+    update() {
+        this.x -= gameSpeed;
+    }
+}
+
+class Obstacle {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.width = 30;
+        this.height = 30;
+        this.type = Math.random() > 0.5 ? 'box' : 'spike';
+    }
+
+    draw() {
+        if (this.type === 'box') {
+            ctx.fillStyle = '#FF5722'; // टोकणी डबा
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+            // क्रॉज मार्क
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(this.x + this.width, this.y + this.height);
+            ctx.moveTo(this.x + this.width, this.y);
+            ctx.lineTo(this.x, this.y + this.height);
+            ctx.stroke();
+        } else {
+            // टोकऱ्या किंवा दगड (Triangle नक्कीच)
+            ctx.fillStyle = '#607D8B';
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y + this.height);
+            ctx.lineTo(this.x + this.width / 2, this.y);
+            ctx.lineTo(this.x + this.width, this.y + this.height);
+            ctx.fill();
+        }
+    }
+
+    update() {
+        this.x -= gameSpeed;
+    }
+}
+
+class Cloud {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * 100;
+        this.speed = Math.random() * 0.5 + 0.2;
+        this.size = Math.random() * 0.5 + 0.5;
+    }
+
+    draw() {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 30 * this.size, 0, Math.PI * 2);
+        ctx.arc(this.x + 25 * this.size, this.y - 10 * this.size, 35 * this.size, 0, Math.PI * 2);
+        ctx.arc(this.x + 50 * this.size, this.y, 30 * this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    update() {
+        this.x -= this.speed;
+        if (this.x < -100) {
+            this.x = canvas.width + 100;
+            this.y = Math.random() * 100;
+        }
+    }
+}
+
+// गेम व्हेरिएबल्स
+let player;
+let platforms = [];
+let obstacles = [];
+let clouds = [];
+let spawnTimer = 0;
+let obstacleTimer = 0;
+
+// गेम इनिशियलायझेशन
+function init() {
+    player = new Player();
+    platforms = [];
+    obstacles = [];
+    clouds = [];
+    score = 0;
+    gameSpeed = 4;
+    spawnTimer = 0;
+    obstacleTimer = 0;
+    
+    // सुरुवातीची जमीन (Ground)
+    platforms.push(new Platform(0, canvas.height - 20, canvas.width));
+
+    // काही ढग (Clouds)
+    for(let i=0; i<5; i++) {
+        clouds.push(new Cloud());
+    }
+}
+
+// कोलिजन चेक (Collision Detection)
+function checkCollisions() {
+    player.grounded = false;
+
+    // प्लॅटफॉर्मसोबत
+    platforms.forEach(p => {
+        // सोपा AABB कोलिजन (पायखानी वर आहे का?)
+        if (
+            player.x < p.x + p.width &&
+            player.x + player.width > p.x &&
+            player.y + player.height > p.y &&
+            player.y + player.height < p.y + p.height + player.dy + 2 // फक्त वरून उतरताना
+        ) {
+            // जर आपण खाली येत असो तरच प्लॅटफॉर्मवर उतरू
+            if(player.dy >= 0) {
+                player.grounded = true;
+                player.dy = 0;
+                player.y = p.y - player.height;
+            }
+        }
+    });
+
+    // अडथळ्यांसोबत (Game Over)
+    obstacles.forEach(obs => {
+        if (
+            player.x + 10 < obs.x + obs.width - 5 &&
+            player.x + player.width - 10 > obs.x + 5 &&
+            player.y + 10 < obs.y + obs.height &&
+            player.y + player.height > obs.y + 5
+        ) {
+            gameOver();
+        }
+    });
+}
+
+// मॅप जनरेटर
+function generateLevel() {
+    // प्लॅटफॉर्म जनरेशन
+    if (platforms.length > 0) {
+        let lastPlatform = platforms[platforms.length - 1];
+        if (lastPlatform.x + lastPlatform.width < canvas.width + 100) {
+            // रँडम गॅप (Gap)
+            let gap = Math.random() * 100 + 50; 
+            // रँडम विड्थ
+            let width = Math.random() * 300 + 200; 
+            // रँडम हाईट (जास्तीत जास्त 2 पायऱ्या वर किंवा खाली)
+            let y = canvas.height - 20;
+            if (Math.random() > 0.6) {
+                y -= 80; // उंच प्लॅटफॉर्म
+            } else if (Math.random() > 0.8) {
+                 y += 40; // खालच्या बाजूला (पण कॅनव्हस आउट होणार नाही याची काळजी)
+                 if(y > canvas.height - 20) y = canvas.height - 20;
+            }
+
+            platforms.push(new Platform(lastPlatform.x + lastPlatform.width + gap, y, width));
+        }
+    }
+
+    // जुने प्लॅटफॉर्म काढून टाकणे
+    platforms = platforms.filter(p => p.x + p.width > -100);
+
+    // अडथळे (Obstacles) जनरेशन
+    obstacleTimer++;
+    if (obstacleTimer > 100 && Math.random() < 0.02) {
+        // कोणत्याही प्लॅटफॉर्मवर अडथळा ठेवा
+        let targetPlat = platforms[Math.floor(Math.random() * platforms.length)];
+        if (targetPlat.x > 0 && targetPlat.x < canvas.width) {
+            obstacles.push(new Obstacle(targetPlat.x + targetPlat.width/2, targetPlat.y - 30));
+            obstacleTimer = 0;
+        }
+    }
+    obstacles = obstacles.filter(o => o.x > -100);
+}
+
+// मुख्य गेम लूप
+function animate() {
+    if (!gameRunning) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // ढग (Background)
+    clouds.forEach(c => {
+        c.update();
+        c.draw();
+    });
+
+    // प्लॅटफॉर्म्स
+    platforms.forEach(p => {
+        p.update();
+        p.draw();
+    });
+
+    // अडथळे
+    obstacles.forEach(o => {
+        o.update();
+        o.draw();
+    });
+
+    // प्लेयर
+    player.update();
+    checkCollisions();
+    player.draw();
+
+    // पडणे (Falling off screen)
+    if (player.y > canvas.height) {
+        gameOver();
+    }
+
+    generateLevel();
+
+    // स्कोअर वाढवणे
+    score++;
+    document.getElementById('scoreVal').innerText = Math.floor(score / 10);
+
+    // वेग वाढवणे (Difficulty)
+    if (score % 500 === 0) {
+        gameSpeed += 0.5;
+    }
+
+    frameId = requestAnimationFrame(animate);
+}
+
+// गेम स्टेट मॅनेजमेंट
+function startGame() {
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('game-over-screen').classList.add('hidden');
+    document.getElementById('hud').style.display = 'block';
+    init();
+    gameRunning = true;
+    animate();
+}
+
+function gameOver() {
+    gameRunning = false;
+    cancelAnimationFrame(frameId);
+    document.getElementById('game-over-screen').classList.remove('hidden');
+    document.getElementById('hud').style.display = 'none';
+    document.getElementById('finalScore').innerText = Math.floor(score / 10);
+}
+
+// बटण इव्हेंट्स
+document.getElementById('startBtn').addEventListener('click', startGame);
+document.getElementById('restartBtn').addEventListener('click', startGame);
+
+// शुरुवातीला एकदा ड्रॉ करा (Background only)
+ctx.fillStyle = '#87CEEB';
+ctx.fillRect(0,0,canvas.width, canvas.height);
+
+</script>
+</body>
+</html>
