@@ -309,8 +309,7 @@ export const games: Game[] = [
     status: 'available',
   },
   {
-      {
-    id: 'nokia-snake',
+          id: 'nokia-snake',
     titleMarathi: 'नोकिया स्नेक',
     titleEnglish: 'Nokia Snake',
     description: 'क्लासिक नोकिया स्नेक गेम खेळा',
