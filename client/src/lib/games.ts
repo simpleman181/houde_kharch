@@ -297,6 +297,17 @@ export const games: Game[] = [
     path: '/narali-pournima',
     status: 'available',
   },
+    {
+    id: 'budget-catcher',
+    titleMarathi: 'बजेट कॅचर',
+    titleEnglish: 'Budget Catcher',
+    description: 'पडणारे बजेट पकडा आणि उच्च स्कोअर मिळवा',
+    emoji: '💰',
+    color: 'from-green-500 to-emerald-600',
+    category: 'clicker',
+    path: '/budget-catcher.html',
+    status: 'available',
+  },
   {
     id: 'design',
     titleMarathi: 'भारतीय स्मार्टफोन डिजाइन',
