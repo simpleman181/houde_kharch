@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/sonner";
+import NokiaSnakeReact from "./pages/nokia_snake_react";
 import BudgetCatcherReact from "./pages/budget_catcher_react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
@@ -43,6 +44,7 @@ function Router() {
       <Route path="/mandala" component={Mandala} />
       <Route path="/counter" component={Counter} />
             <Route path="/budget-catcher" component={BudgetCatcherReact} />
+            <Route path="/nokia-snake" component={NokiaSnakeReact} />
       <Route path="/quiz" component={Quiz} />
       <Route path="/craft" component={Craft} />
       <Route path="/dilemma" component={Dilemma} />
