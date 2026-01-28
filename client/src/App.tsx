@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/sonner";
+import BudgetCatcherReact from "./pages/budget_catcher_react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
@@ -41,6 +42,7 @@ function Router() {
       <Route path="/clicker" component={Clicker} />
       <Route path="/mandala" component={Mandala} />
       <Route path="/counter" component={Counter} />
+            <Route path="/budget-catcher" component={BudgetCatcherReact} />
       <Route path="/quiz" component={Quiz} />
       <Route path="/craft" component={Craft} />
       <Route path="/dilemma" component={Dilemma} />
