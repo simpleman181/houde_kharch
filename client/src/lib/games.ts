@@ -319,6 +319,7 @@ export const games: Game[] = [
     path: '/nokia-snake',
     status: 'available',
   },
+    {
     id: 'design',
     titleMarathi: 'भारतीय स्मार्टफोन डिजाइन',
     titleEnglish: 'Indian Phone Design',
