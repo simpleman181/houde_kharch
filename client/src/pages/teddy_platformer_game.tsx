@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'wouter';
 
 interface Position {
   x: number;
@@ -28,11 +28,11 @@ interface Coin {
 }
 
 const TeddyChiDhav: React.FC = () => {
-    const navigate = useNavigate();
+    const [, setLocation] = useLocation();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const animationIdRef = useRef<number>();
-
+const [, setLocation] = useLocation();
   const [gameState, setGameState] = useState<'start' | 'playing' | 'gameOver' | 'won'>('start');
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
@@ -429,7 +429,7 @@ const TeddyChiDhav: React.FC = () => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
       `}</style>
-            <button onClick={() => navigate('/')} style={{ position: 'absolute', top: '20px', left: '20px', padding: '10px 20px', fontSize: '16px', cursor: 'pointer', background: '#fff', border: 'none', borderRadius: '5px', boxShadow: '0 2px 5px rgba(0,0,0,0.2)' }}>← Back</button>
+            <button onClick={() => setLocation('/')} style={{ position: 'absolute', top: '20px', left: '20px', padding: '10px 20px', fontSize: '16px', cursor: 'pointer', background: '#fff', border: 'none', borderRadius: '5px', boxShadow: '0 2px 5px rgba(0,0,0,0.2)' }}>← Back</button>
 
       <header style={{ textAlign: 'center', marginBottom: '20px' }}>
         <h1 style={{ fontSize: '3rem', margin: '0 0 8px 0', fontWeight: 800, background: 'linear-gradient(45deg, #fff, #FFD700)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
