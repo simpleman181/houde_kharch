@@ -34,8 +34,8 @@ import MakarSankranti from "@/pages/MakarSankranti";
 import CulturalQuiz from "@/pages/CulturalQuiz";
 import NagPanchami from "@/pages/NagPanchami";
 import NaraliPournima from "@/pages/NaraliPournima";
-import SimonMemoryGame from "./pages/simon_memory_game";
-import TeddyPlatformerGame from "./pages/teddy_platformer_game";
+import SimonMemoryGame from "@/pages/simon_memory_game";
+import TeddyPlatformerGame from "@/pages/teddy_platformer_game";
 
 function Router() {
   return (
