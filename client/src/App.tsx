@@ -1,4 +1,4 @@
-port { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/sonner";
 import NokiaSnakeReact from "./pages/nokia_snake_react";
 import BudgetCatcherReact from "./pages/budget_catcher_react";
 import { TooltipProvider } from "@/components/ui/tooltip";
