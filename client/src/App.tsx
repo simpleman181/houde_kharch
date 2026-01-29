@@ -34,6 +34,8 @@ import MakarSankranti from "@/pages/MakarSankranti";
 import CulturalQuiz from "@/pages/CulturalQuiz";
 import NagPanchami from "@/pages/NagPanchami";
 import NaraliPournima from "@/pages/NaraliPournima";
+import SimonMemoryGame from "./pages/simon_memory_game";
+import TeddyPlatformerGame from "./pages/teddy_platformer_game";
 
 function Router() {
   return (
@@ -67,6 +69,8 @@ function Router() {
       <Route path="/cultural-quiz" component={CulturalQuiz} />
       <Route path="/nag-panchami" component={NagPanchami} />
       <Route path="/narali-pournima" component={NaraliPournima} />
+              <Route path="/simon-memory" component={SimonMemoryGame} />
+        <Route path="/teddy-platformer" component={TeddyPlatformerGame} />
       <Route path="/" component={GameHub} />
       <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
