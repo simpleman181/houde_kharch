@@ -11,28 +11,17 @@ import Home from "./pages/Home";
 import Clicker from "./pages/Clicker";
 import Mandala from "./pages/Mandala";
 import Counter from "./pages/Counter";
-import Quiz from "./pages/Quiz";
 import Craft from "./pages/Craft";
-import Dilemma from "./pages/Dilemma";
 import Size from "@/pages/SizeCompare";
 import MonumentTour from "@/pages/MonumentTour";
-import EscalatingQuiz from "@/pages/EscalatingQuiz";
-import RockPaperScissors from "@/pages/RockPaperScissors";
-import ColorMatcher from "@/pages/ColorMatcher";
 import ReactionTime from "@/pages/ReactionTime";
 import UselessClicker from "@/pages/UselessClicker";
 import PerfectShapeDrawer from "@/pages/PerfectShapeDrawer";
 import MemoryDoodle from "@/pages/MemoryDoodle";
-import InfiniteMixer from "@/pages/InfiniteMixer";
 import Lagori from "@/pages/Lagori";
 import DiwaliCelebration from "@/pages/DiwaliCelebration";
 import HoliColors from "@/pages/HoliColors";
-import GudiPadwa from "@/pages/GudiPadwa";
-import JanmashtamiDahiHandi from "@/pages/JanmashtamiDahiHandi";
-import MakarSankranti from "@/pages/MakarSankranti";
 import CulturalQuiz from "@/pages/CulturalQuiz";
-import NagPanchami from "@/pages/NagPanchami";
-import NaraliPournima from "@/pages/NaraliPournima";
 import SimonMemoryGame from "@/pages/simon_memory_game";
 import TeddyPlatformerGame from "@/pages/teddy_platformer_game";
 
@@ -46,28 +35,17 @@ function Router() {
       <Route path="/counter" component={Counter} />
             <Route path="/budget-catcher" component={BudgetCatcherReact} />
             <Route path="/nokia-snake" component={NokiaSnakeReact} />
-      <Route path="/quiz" component={Quiz} />
       <Route path="/craft" component={Craft} />
-      <Route path="/dilemma" component={Dilemma} />
       <Route path="/size-compare" component={Size} />
       <Route path="/monument-tour" component={MonumentTour} />
-      <Route path="/escalating-quiz" component={EscalatingQuiz} />
-      <Route path="/rock-paper-scissors" component={RockPaperScissors} />
-      <Route path="/color-matcher" component={ColorMatcher} />
       <Route path="/reaction-time" component={ReactionTime} />
       <Route path="/useless-clicker" component={UselessClicker} />
       <Route path="/perfect-shape" component={PerfectShapeDrawer} />
       <Route path="/memory-doodle" component={MemoryDoodle} />
-      <Route path="/infinite-mixer" component={InfiniteMixer} />
       <Route path="/lagori" component={Lagori} />
       <Route path="/diwali" component={DiwaliCelebration} />
       <Route path="/holi" component={HoliColors} />
-      <Route path="/gudi-padwa" component={GudiPadwa} />
-      <Route path="/janmashtami" component={JanmashtamiDahiHandi} />
-      <Route path="/makar-sankranti" component={MakarSankranti} />
       <Route path="/cultural-quiz" component={CulturalQuiz} />
-      <Route path="/nag-panchami" component={NagPanchami} />
-      <Route path="/narali-pournima" component={NaraliPournima} />
               <Route path="/simon-memory" component={SimonMemoryGame} />
         <Route path="/teddy-platformer" component={TeddyPlatformerGame} />
                 <Route path="/" component={Clicker} />
