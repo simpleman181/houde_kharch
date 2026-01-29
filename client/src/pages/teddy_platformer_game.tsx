@@ -32,7 +32,6 @@ const TeddyChiDhav: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const animationIdRef = useRef<number>();
-const [, setLocation] = useLocation();
   const [gameState, setGameState] = useState<'start' | 'playing' | 'gameOver' | 'won'>('start');
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
