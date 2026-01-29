@@ -341,6 +341,28 @@ export const games: Game[] = [
     path: '/music',
     status: 'coming-soon',
   },
+    {
+    id: 'simon-memory',
+    titleMarathi: 'सायमन मेमरी गेम',
+    titleEnglish: 'Simon Memory Game',
+    description: 'रंगांचा क्रम लक्षात ठेवा आणि पुन्हा करा',
+    emoji: '🎮',
+    color: 'from-purple-500 to-pink-600',
+    category: 'clicker',
+    path: '/simon-memory',
+    status: 'available',
+  },
+  {
+    id: 'teddy-platformer',
+    titleMarathi: 'टेडी प्लॅटफॉर्मर',
+    titleEnglish: 'Teddy Platformer',
+    description: 'टेडी बेअरसोबत प्लॅटफॉर्म गेम खेळा',
+    emoji: '🧸',
+    color: 'from-yellow-500 to-orange-600',
+    category: 'clicker',
+    path: '/teddy-platformer',
+    status: 'available',
+  },
 ];
 
 export const categories = [
