@@ -7,6 +7,7 @@ import { Route, Switch } from "wouter";
 import { Router as WouterRouter } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import GameHub from "./pages/GameHub";
 import Home from "./pages/Home";
 import Clicker from "./pages/Clicker";
 import Mandala from "./pages/Mandala";
@@ -48,9 +49,11 @@ function Router() {
       <Route path="/cultural-quiz" component={CulturalQuiz} />
               <Route path="/simon-memory" component={SimonMemoryGame} />
         <Route path="/teddy-platformer" component={TeddyPlatformerGame} />
-      <Route path="/" component={Home} />      {/* Final fallback route */}
-      <Route component={NotFound} />
-    </Switch>
+      <Route path="/" component={GameHub} />
+            <Route path="/404" component={NotFound} />
+            {/* Final fallback route */}
+            <Route component={NotFound} />
+      </Switch>
                 </WouterRouter>
   );
 }
