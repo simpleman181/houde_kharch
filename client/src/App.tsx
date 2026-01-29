@@ -1,4 +1,4 @@
-import { Toaster } from "@/components/ui/sonner";
+port { Toaster } from "@/components/ui/sonner";
 import NokiaSnakeReact from "./pages/nokia_snake_react";
 import BudgetCatcherReact from "./pages/budget_catcher_react";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -48,8 +48,7 @@ function Router() {
       <Route path="/cultural-quiz" component={CulturalQuiz} />
               <Route path="/simon-memory" component={SimonMemoryGame} />
         <Route path="/teddy-platformer" component={TeddyPlatformerGame} />
-                <Route path="/" component={Clicker} />
-      {/* Final fallback route */}
+      <Route path="/" component={Home} />      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
                 </WouterRouter>
