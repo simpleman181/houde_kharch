@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'wouter';
 
 const SimonMemoryGame: React.FC = () => {
-    const navigate = useNavigate();
+    const [, setLocation] = useLocation();
   const [sequence, setSequence] = useState<number[]>([]);
   const [playerSeq, setPlayerSeq] = useState<number[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -124,7 +124,7 @@ const SimonMemoryGame: React.FC = () => {
       `}</style>
 
       <header style={{ textAlign: 'center', marginBottom: '20px' }}>
-                <button onClick={() => navigate('/')} style={{ position: 'absolute', top: '20px', left: '20px', padding: '10px 20px', fontSize: '16px', cursor: 'pointer', background: '#fff', border: 'none', borderRadius: '5px', boxShadow: '0 2px 5px rgba(0,0,0,0.2)' }}>← Back</button>
+                <button onClick={() => setLocation('/')} style={{ position: 'absolute', top: '20px', left: '20px', padding: '10px 20px', fontSize: '16px', cursor: 'pointer', background: '#fff', border: 'none', borderRadius: '5px', boxShadow: '0 2px 5px rgba(0,0,0,0.2)' }}>← Back</button>
         <h1 style={{ fontSize: '3rem', margin: '0 0 8px 0', fontWeight: 800, background: 'linear-gradient(45deg, #fff, #00d084)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
           🎵 मेमरी गेम
         </h1>
