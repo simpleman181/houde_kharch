@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import { Router as WouterRouter } from "wouter";
+import { useHashLocation } from "wouter/use-hash-location";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import GameHub from "./pages/GameHub";
@@ -28,7 +29,10 @@ import TeddyPlatformerGame from "@/pages/teddy_platformer_game";
 
 function Router() {
   return (
-        <WouterRouter base="/houde_kharch">
+        <WouterRouter
+           base="/houde_kharch"
+           hook={useHashLocation}
+        >
     <Switch>
       <Route path="/spend-money" component={Home} />
       <Route path="/clicker" component={Clicker} />
