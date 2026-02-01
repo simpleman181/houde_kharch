@@ -29,7 +29,7 @@ import TeddyPlatformerGame from "@/pages/teddy_platformer_game";
 
 function Router() {
   return (
-    <WouterRouter base="/houde_kharch" hook={useHashLocation}>
+    <WouterRouter hook={useHashLocation}>
       <Switch>
       <Route path="/spend-money" component={Home} />
       <Route path="/clicker" component={Clicker} />
