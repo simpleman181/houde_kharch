@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Budget Catcher - Houde Kharch Game</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
+        :root {
+            --primary-color: #00d084;
+            --secondary-color: #00a8ff;
+            --danger-color: #ff4757;
+            --warning-color: #ffa502;
+            --bg-gradient-start: #667eea;
+            --bg-gradient-end: #764ba2;
+            --text-color: #2c3e50;
+            --ui-font: 'Poppins', sans-serif;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.15);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            touch-action: manipulation;
+        }
+
+        body {
+            font-family: var(--ui-font);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            background-attachment: fixed;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .particle {
+            position: absolute;
+            font-size: 24px;
+            animation: float 15s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-30px) rotate(5deg); }
+            50% { transform: translateY(-60px) rotate(-5deg); }
+            75% { transform: translateY(-30px) rotate(3deg); }
+        }
+
+        header {
+            position: relative;
+            text-align: center;
+            z-index: 10;
+            margin-bottom: 20px;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 8px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: white;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #00d084);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 600;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        main {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            height: 75vh;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            border: 3px solid rgba(255,255,255,0.3);
+            z-index: 1;
+            animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            cursor: none;
+            background: linear-gradient(180deg, #e3f2fd 0%, #fff 100%);
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
+            backdrop-filter: blur(15px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.9);
+        }
+
+        .overlay-content {
+            background: rgba(255,255,255,0.15);
+            padding: 40px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            animation: bounceIn 0.6s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .score-display {
+            font-size: 4.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #00d084, #00a8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 20px rgba(0,208,132,0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .final-score-label {
+            font-size: 1.4rem;
+            color: white;
+            margin-bottom: 8px;
+            font-weight: 600;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.6rem;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 8px 0 rgba(0,0,0,0.2), 0 12px 24px rgba(0,208,132,0.4);
+            transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 0 rgba(0,0,0,0.2), 0 16px 32px rgba(0,208,132,0.5);
+        }
+
+        .btn:active {
+            transform: translateY(4px) scale(0.98);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.2), 0 4px 12px rgba(0,208,132,0.3);
+        }
+
+        .hud {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 0;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .hud-item {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+            padding: 12px 24px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-md);
+            font-weight: 700;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 2px solid rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+            animation: slideInTop 0.5s ease-out;
+        }
+
+        @keyframes slideInTop {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .hud-item.score {
+            color: var(--primary-color);
+            flex: 1;
+        }
+
+        .hud-item.lives {
+            color: var(--danger-color);
+        }
+
+        .hud-item.combo {
+            background: linear-gradient(135deg, var(--warning-color), #ff6348);
+            color: white;
+            animation: comboAppear 0.3s ease-out;
+        }
+
+        @keyframes comboAppear {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        .instruction-text {
+            color: white;
+            font-size: 1.1rem;
+            margin: 25px 0;
+            text-align: center;
+            max-width: 85%;
+            line-height: 1.8;
+            font-weight: 500;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .instruction-text strong {
+            color: var(--primary-color);
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(0,208,132,0.5);
+        }
+
+        #gameMessage {
+            margin-bottom: 30px;
+            font-weight: 700;
+            color: white;
+            font-size: 1.5rem;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+            animation: messageAppear 0.5s ease-out;
+        }
+
+        @keyframes messageAppear {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        footer {
+            margin-top: 25px;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.8);
+            font-weight: 500;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        /* Floating text for scores */
+        .floating-score {
+            position: absolute;
+            font-size: 2rem;
+            font-weight: 800;
+            pointer-events: none;
+            z-index: 100;
+            animation: floatUp 1s ease-out forwards;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            p.subtitle { font-size: 1rem; }
+            main { height: 70vh; width: 95%; border-radius: 20px; }
+            .btn { padding: 15px 40px; font-size: 1.3rem; }
+            .score-display { font-size: 3.5rem; }
+            .hud-item { font-size: 1.1rem; padding: 10px 18px; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.6rem; }
+            .overlay-content { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background particles -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Budget Catcher - Houde Kharch Game</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
+        :root {
+            --primary-color: #00d084;
+            --secondary-color: #00a8ff;
+            --danger-color: #ff4757;
+            --warning-color: #ffa502;
+            --bg-gradient-start: #667eea;
+            --bg-gradient-end: #764ba2;
+            --text-color: #2c3e50;
+            --ui-font: 'Poppins', sans-serif;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.15);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            touch-action: manipulation;
+        }
+
+        body {
+            font-family: var(--ui-font);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            background-attachment: fixed;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .particle {
+            position: absolute;
+            font-size: 24px;
+            animation: float 15s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-30px) rotate(5deg); }
+            50% { transform: translateY(-60px) rotate(-5deg); }
+            75% { transform: translateY(-30px) rotate(3deg); }
+        }
+
+        header {
+            position: relative;
+            text-align: center;
+            z-index: 10;
+            margin-bottom: 20px;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 8px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: white;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #00d084);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 600;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        main {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            height: 75vh;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            border: 3px solid rgba(255,255,255,0.3);
+            z-index: 1;
+            animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            cursor: none;
+            background: linear-gradient(180deg, #e3f2fd 0%, #fff 100%);
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
+            backdrop-filter: blur(15px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.9);
+        }
+
+        .overlay-content {
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            animation: bounceIn 0.6s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .score-display {
+            font-size: 4.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #00d084, #00a8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 20px rgba(0,208,132,0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .final-score-label {
+            font-size: 1.4rem;
+            color: white;
+            margin-bottom: 8px;
+            font-weight: 600;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.6rem;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 8px 0 rgba(0,0,0,0.2), 0 12px 24px rgba(0,208,132,0.4);
+            transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 0 rgba(0,0,0,0.2), 0 16px 32px rgba(0,208,132,0.5);
+        }
+
+        .btn:active {
+            transform: translateY(4px) scale(0.98);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.2), 0 4px 12px rgba(0,208,132,0.3);
+        }
+
+        .hud {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 0;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .hud-item {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+            padding: 12px 24px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-md);
+            font-weight: 700;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 2px solid rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+            animation: slideInTop 0.5s ease-out;
+        }
+
+        @keyframes slideInTop {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .hud-item.score {
+            color: var(--primary-color);
+            flex: 1;
+        }
+
+        .hud-item.lives {
+            color: var(--danger-color);
+        }
+
+        .hud-item.combo {
+            background: linear-gradient(135deg, var(--warning-color), #ff6348);
+            color: white;
+            animation: comboAppear 0.3s ease-out;
+        }
+
+        @keyframes comboAppear {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        .instruction-text {
+            color: white;
+            font-size: 1.1rem;
+            margin: 25px 0;
+            text-align: center;
+            max-width: 85%;
+            line-height: 1.8;
+            font-weight: 500;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .instruction-text strong {
+            color: var(--primary-color);
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(0,208,132,0.5);
+        }
+
+        #gameMessage {
+            margin-bottom: 30px;
+            font-weight: 700;
+            color: white;
+            font-size: 1.5rem;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+            animation: messageAppear 0.5s ease-out;
+        }
+
+        @keyframes messageAppear {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        footer {
+            margin-top: 25px;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.8);
+            font-weight: 500;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        /* Floating text for scores */
+        .floating-score {
+            position: absolute;
+            font-size: 2rem;
+            font-weight: 800;
+            pointer-events: none;
+            z-index: 100;
+            animation: floatUp 1s ease-out forwards;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            p.subtitle { font-size: 1rem; }
+            main { height: 70vh; width: 95%; border-radius: 20px; }
+            .btn { padding: 15px 40px; font-size: 1.3rem; }
+            .score-display { font-size: 3.5rem; }
+            .hud-item { font-size: 1.1rem; padding: 10px 18px; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.6rem; }
+            .overlay-content { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background particles -->
+    <div class="bg-particles" id="bgParticles"></div>
+
+    <header>
+        <h1>💼 Budget Catcher</h1>
+        <p class="subtitle">बचत करा, बिले टाळा! Save Money, Avoid Bills!</p>
+    </header>
+
+    <main id="game-container">
+        <canvas id="gameCanvas"></canvas>
+
+        <div id="hud" class="hud hidden">
+            <div class="hud-item score">💰 ₹<span id="currentScore">0</span></div>
+            <div class="hud-item lives">❤️ <span id="livesCount">3</span></div>
+            <div class="hud-item combo hidden" id="comboDisplay">🔥 <span id="comboCount">0</span>x</div>
+        </div>
+
+        <div id="startScreen" class="overlay">
+            <div class="overlay-content">
+                <h2 style="margin-bottom: 15px; font-size: 2.5rem; color: white; text-shadow: 0 2px 12px rgba(0,0,0,0.3);">तयार आहात का?</h2>
+                <p class="instruction-text">
+                    🖱️ Mouse किंवा Touch वापरा तुमचे Wallet नियंत्रित करण्यासाठी<br>
+                    💵 <strong>Money (रुपये)</strong> पकडा • 🧾 <strong>Bills (बिले)</strong> टाळा
+                </p>
+                <button class="btn" id="startBtn">
+                    <span style="position: relative; z-index: 1;">सुरू करा Start</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="gameOverScreen" class="overlay hidden">
+            <div class="overlay-content">
+                <div class="final-score-label">एकूण बचत Total Savings</div>
+                <div class="score-display">₹<span id="finalScore">0</span></div>
+                <p id="gameMessage"></p>
+                <button class="btn" id="restartBtn">
+                    <span style="position: relative; z-index: 1;">पुन्हा प्रयत्न करा Try Again</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        ⌨️ Arrow Keys • 🖱️ Mouse • 👆 Touch to Play
+    </footer>
+
+    <script>
+        // Background particles
+        const bgParticles = document.getElementById('bgParticles');
+        const particleEmojis = ['💵', '💰', '💸', '🧾', '💼'];
+        for(let i = 0; i < 15; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.textContent = particleEmojis[Math.floor(Math.random() * particleEmojis.length)];
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            bgParticles.appendChild(particle);
+        }
+
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.getElementById('game-container');
+        
+        const startScreen = document.getElementById('startScreen');
+        const gameOverScreen = document.getElementById('gameOverScreen');
+        const hud = document.getElementById('hud');
+        const scoreEl = document.getElementById('currentScore');
+        const finalScoreEl = document.getElementById('finalScore');
+        const livesEl = document.getElementById('livesCount');
+        const comboDisplay = document.getElementById('comboDisplay');
+        const comboCount = document.getElementById('comboCount');
+        const startBtn = document.getElementById('startBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const gameMessage = document.getElementById('gameMessage');
+
+        let animationId;
+        let score = 0;
+        let lives = 3;
+        let isGameOver = false;
+        let frameCount = 0;
+        let difficultyMultiplier = 1;
+        let combo = 0;
+        let comboTimer = 0;
+
+        let player;
+        let items = [];
+        let particles = [];
+
+        const SPRITES = {
+            player: '💼',
+            money: '💵',
+            bill: '🧾',
+            bonus: '💰'
+        };
+
+        function resizeCanvas() {
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+            if (player) {
+                player.y = canvas.height - player.height - 15;
+                if (player.x > canvas.width - player.width) player.x = canvas.width / 2;
+            }
+        }
+        window.addEventListener('resize', resizeCanvas);
+
+        let inputX = canvas.width / 2;
+
+        function updateInputPosition(clientX) {
+            const rect = canvas.getBoundingClientRect();
+            let relativeX = clientX - rect.left;
+            if (relativeX < player.width / 2) relativeX = player.width / 2;
+            if (relativeX > canvas.width - player.width / 2) relativeX = canvas.width - player.width / 2;
+            inputX = relativeX;
+        }
+
+        container.addEventListener('mousemove', (e) => {
+            if (!isGameOver && animationId) updateInputPosition(e.clientX);
+        });
+
+        container.addEventListener('touchmove', (e) => {
+            if (!isGameOver && animationId) {
+                e.preventDefault();
+                updateInputPosition(e.touches[0].clientX);
+            }
+        }, { passive: false });
+
+        window.addEventListener('keydown', (e) => {
+            if (!isGameOver && animationId) {
+                const speed = 35;
+                if (e.key === 'ArrowLeft') inputX -= speed;
+                if (e.key === 'ArrowRight') inputX += speed;
+                if (inputX < player.width/2) inputX = player.width/2;
+                if (inputX > canvas.width - player.width/2) inputX = canvas.width - player.width/2;
+            }
+        });
+
+        class Player {
+            constructor() {
+                this.width = 65;
+                this.height = 65;
+                this.x = canvas.width / 2;
+                this.y = canvas.height - this.height - 15;
+                this.targetX = this.x;
+            }
+
+            update() {
+                this.x += (inputX - this.x) * 0.25;
+            }
+
+            draw() {
+                ctx.save();
+                const wobble = Math.sin(frameCount * 0.1) * 2;
+                ctx.translate(this.x, this.y + wobble);
+                ctx.font = `${this.width}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.shadowColor = 'rgba(0,0,0,0.3)';
+                ctx.shadowBlur = 10;
+                ctx.fillText(SPRITES.player, 0, this.height/2);
+                ctx.restore();
+            }
+        }
+
+        class Item {
+            constructor() {
+                this.size = 45;
+                this.x = Math.random() * (canvas.width - this.size * 2) + this.size;
+                this.y = -60;
+                
+                const rand = Math.random();
+                if(rand > 0.95 && score > 500) {
+                    this.isMoney = true;
+                    this.isBonus = true;
+                    this.text = SPRITES.bonus;
+                    this.value = 500;
+                } else {
+                    this.isMoney = rand > 0.25;
+                    this.isBonus = false;
+                    this.text = this.isMoney ? SPRITES.money : SPRITES.bill;
+                    this.value = 100;
+                }
+                
+                this.speed = (Math.random() * 2 + 2.5) + (difficultyMultiplier * 1.2); 
+                this.rotation = 0;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.15;
+                this.amplitude = Math.random() * 30 + 20;
+                this.frequency = Math.random() * 0.02 + 0.01;
+            }
+
+            update() {
+                this.y += this.speed;
+                this.rotation += this.rotationSpeed;
+                this.x += Math.sin(this.y * this.frequency) * 0.5;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.font = `${this.size}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                if(this.isBonus) {
+                    ctx.shadowColor = '#ffa502';
+                    ctx.shadowBlur = 20;
+                }
+                
+                ctx.fillText(this.text, 0, 0);
+                ctx.restore();
+            }
+        }
+
+        class Particle {
+            constructor(x, y, color, text = '') {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 8 + 4;
+                this.speedX = (Math.random() - 0.5) * 8;
+                this.speedY = (Math.random() - 0.5) * 8 - 2;
+                this.color = color;
+                this.life = 1;
+                this.text = text;
+                this.gravity = 0.3;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.speedY += this.gravity;
+                this.life -= 0.02;
+            }
+            draw() {
+                ctx.globalAlpha = this.life;
+                if(this.text) {
+                    ctx.font = `${this.size * 3}px Arial`;
+                    ctx.fillText(this.text, this.x, this.y);
+                } else {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        function createFloatingScore(x, y, value, isBonus) {
+            const floatingText = document.createElement('div');
+            floatingText.className = 'floating-score';
+            floatingText.textContent = isBonus ? `+₹${value} 🔥` : `+₹${value}`;
+            floatingText.style.left = x + 'px';
+            floatingText.style.top = y + 'px';
+            floatingText.style.color = isBonus ? '#ffa502' : '#00d084';
+            container.appendChild(floatingText);
+            setTimeout(() => floatingText.remove(), 1000);
+        }
+
+        function initGame() {
+            score = 0;
+            lives = 3;
+            combo = 0;
+            difficultyMultiplier = 1;
+            isGameOver = false;
+            items = [];
+            particles = [];
+            frameCount = 0;
+            
+            resizeCanvas();
+            inputX = canvas.width / 2;
+            player = new Player();
+            
+            scoreEl.innerText = score;
+            livesEl.innerText = lives;
+            comboDisplay.classList.add('hidden');
+            startScreen.classList.add('hidden');
+            gameOverScreen.classList.add('hidden');
+            hud.classList.remove('hidden');
+
+            animate();
+        }
+
+        function createExplosion(x, y, color, emoji = '') {
+            for(let i=0; i<12; i++) {
+                particles.push(new Particle(x, y, color, i < 3 ? emoji : ''));
+            }
+        }
+
+        function updateCombo(caught) {
+            if(caught) {
+                combo++;
+                comboTimer = 120;
+                if(combo >= 3) {
+                    comboCount.innerText = combo;
+                    comboDisplay.classList.remove('hidden');
+                }
+            } else {
+                combo = 0;
+                comboTimer = 0;
+                comboDisplay.classList.add('hidden');
+            }
+        }
+
+        function handleGameOver() {
+            isGameOver = true;
+            cancelAnimationFrame(animationId);
+            
+            if(score < 1000) gameMessage.innerText = "चांगला प्रयत्न! अजून सराव करा";
+            else if(score < 3000) gameMessage.innerText = "छान! तुम्ही चांगले बचत केले";
+            else if(score < 5000) gameMessage.innerText = "अप्रतिम! Budget Master!";
+            else gameMessage.innerText = "🏆 वाह! तुम्ही तर Financial Genius आहात!";
+
+            finalScoreEl.innerText = score.toLocaleString('en-IN');
+            hud.classList.add('hidden');
+            gameOverScreen.classList.remove('hidden');
+        }
+
+        function animate() {
+            if (isGameOver) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#e3f2fd');
+            gradient.addColorStop(1, '#ffffff');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            frameCount++;
+
+            if (frameCount % 900 === 0) {
+                difficultyMultiplier += 0.3;
+            }
+
+            if(comboTimer > 0) comboTimer--;
+            if(comboTimer === 0 && combo > 0) updateCombo(false);
+
+            const spawnRate = Math.max(25, 65 - (difficultyMultiplier * 6));
+            if (frameCount % Math.floor(spawnRate) === 0) {
+                items.push(new Item());
+            }
+
+            player.update();
+            player.draw();
+
+            for (let i = items.length - 1; i >= 0; i--) {
+                let item = items[i];
+                item.update();
+                item.draw();
+
+                const dx = item.x - player.x;
+                const dy = item.y - (player.y + player.height/2);
+                const distance = Math.sqrt(dx*dx + dy*dy);
+
+                if (distance < (player.width/2 + item.size/2 - 8)) {
+                    const rect = canvas.getBoundingClientRect();
+                    if (item.isMoney) {
+                        let points = item.value;
+                        if(combo >= 3) points = Math.floor(points * (1 + combo * 0.1));
+                        
+                        score += points;
+                        scoreEl.innerText = score.toLocaleString('en-IN');
+                        createExplosion(item.x, item.y, '#00d084', '💰');
+                        createFloatingScore(item.x + rect.left - 30, item.y + rect.top, points, item.isBonus);
+                        updateCombo(true);
+                    } else {
+                        lives--;
+                        livesEl.innerText = lives;
+                        createExplosion(item.x, item.y, '#ff4757', '💥');
+                        updateCombo(false);
+                        
+                        container.style.transform = `translate(${Math.random()*12-6}px, ${Math.random()*12-6}px)`;
+                        setTimeout(() => container.style.transform = 'none', 120);
+
+                        if (lives <= 0) handleGameOver();
+                    }
+                    items.splice(i, 1);
+                    continue;
+                }
+
+                if (item.y > canvas.height + 70) {
+                    items.splice(i, 1);
+                }
+            }
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let p = particles[i];
+                p.update();
+                p.draw();
+                if(p.life <= 0) particles.splice(i, 1);
+            }
+
+            animationId = requestAnimationFrame(animate);
+        }
+
+        startBtn.addEventListener('click', initGame);
+        restartBtn.addEventListener('click', initGame);
+
+        resizeCanvas();
+    </script>
+</body>
+</html>            background: rgba(255,255,255,0.15);
+            padding: 40px;
+            border-radius: 25px;
+
+
